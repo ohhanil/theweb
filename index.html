@@ -1,0 +1,1461 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>THE WEB — 웹사이트 제작 스튜디오</title>
+<meta name="description" content="기획부터 디자인, 개발, 검색 최적화까지. 방문자가 문의로 이어지는 웹사이트를 한 팀이 끝까지 만듭니다.">
+<meta name="theme-color" content="#ffffff">
+<meta property="og:type" content="website">
+<meta property="og:title" content="THE WEB — 웹사이트 제작 스튜디오">
+<meta property="og:description" content="방문자가 문의로 이어지는 브랜드 웹사이트를 기획부터 개발까지 한 팀이 만듭니다.">
+<meta property="og:locale" content="ko_KR">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Sans+KR:wght@400;500;600;700;800;900&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --black:#0e0e0e; --black-2:#161616; --black-3:#1f1f1f;
+  --white:#ffffff; --paper-soft:#f6f6f4; --paper-alt:#fbfbfa;
+  --ink:#111111; --ink-2:#333333; --muted:rgba(17,17,17,.56); --faint:rgba(17,17,17,.22);
+  --on-dark:#ffffff; --on-dark-2:rgba(255,255,255,.74); --on-dark-3:rgba(255,255,255,.54);
+  --line:rgba(17,17,17,.10); --line-dark:rgba(255,255,255,.12); --grid-line:rgba(17,17,17,.06);
+  --accent:#5e51f0; --accent-light:#7e7aff; --accent-tint:#f2f2ff; --accent-glow:rgba(94,81,240,.45);
+
+  --container:1280px; --gutter:clamp(20px,4vw,80px);
+  --section-y:clamp(100px,13vw,200px); --section-y-sm:clamp(80px,8vw,120px); --head-gap:clamp(40px,5vw,80px);
+
+  --r-pill:999px; --r-xs:8px; --r-sm:12px; --r-md:18px; --r-lg:24px; --r-xl:40px; --r-2xl:60px;
+  --shadow-soft:10px 10px 50px rgba(0,0,0,.06); --shadow-float:0 20px 60px rgba(0,0,0,.18); --shadow-glow:0 0 40px var(--accent-glow);
+
+  --ease-out-expo:cubic-bezier(.16,1,.3,1); --ease-out-quint:cubic-bezier(.22,1,.36,1);
+  --ease-smooth:cubic-bezier(.22,.61,.36,1); --ease-soft:cubic-bezier(.25,.1,.25,1); --ease-ui:cubic-bezier(.4,0,.2,1);
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth; scroll-padding-top:90px;}
+body{margin:0; background:var(--white);}
+.page{font-family:"Inter","Noto Sans KR",-apple-system,BlinkMacSystemFont,system-ui,sans-serif;
+  font-size:16px; line-height:1.6; color:var(--ink); background:var(--white);
+  word-break:keep-all; -webkit-font-smoothing:antialiased; overflow-x:clip;}
+h1,h2,h3,h4{margin:0; letter-spacing:-.03em;}
+p{margin:0;}
+a{color:inherit; text-decoration:none;}
+ul{margin:0; padding:0; list-style:none;}
+button{font-family:inherit; font-size:inherit; border:none; background:none; color:inherit; cursor:pointer; padding:0; text-align:inherit;}
+::selection{background:var(--accent); color:#fff;}
+a:focus-visible, button:focus-visible, summary:focus-visible{outline:2px solid var(--accent); outline-offset:3px;}
+.en{font-family:Poppins,"Noto Sans KR",sans-serif;}
+.sr-only{position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap;}
+
+.container{width:min(var(--container), 100% - var(--gutter) * 2); margin-inline:auto;}
+.section{padding-block:var(--section-y); position:relative;}
+.overlap{margin-top:calc(var(--r-2xl) * -1); border-radius:var(--r-2xl) var(--r-2xl) 0 0; position:relative;}
+.dark{background:var(--black); color:var(--on-dark);}
+
+/* ---------- type ---------- */
+.eyebrow{display:inline-flex; align-items:center; gap:8px; font-size:18px; font-weight:600; color:var(--accent); margin-bottom:20px;}
+.eyebrow::before{content:""; width:6px; height:6px; border-radius:50%; background:currentColor; flex-shrink:0;}
+.eyebrow.cap{font-family:Poppins,sans-serif; font-size:12px; letter-spacing:.16em; text-transform:uppercase;}
+.dark .eyebrow{color:var(--accent-light);}
+.display-l{font-size:clamp(40px,4.9vw,70px); font-weight:800; letter-spacing:-.035em; line-height:1.24;}
+.h2{font-size:clamp(32px,4.2vw,60px); font-weight:700; letter-spacing:-.03em; line-height:1.4;}
+.w5{font-weight:500;}
+.lead{font-size:clamp(17px,1.5vw,21px); letter-spacing:-.01em; line-height:1.6; color:var(--muted); margin-top:24px;}
+.dark .lead{color:var(--on-dark-2);}
+.sec-head{margin-bottom:var(--head-gap);}
+.sec-head.center{text-align:center; max-width:900px; margin-inline:auto;}
+.split{display:grid; grid-template-columns:minmax(0,5fr) minmax(0,7fr); gap:80px; align-items:start;}
+.split .sticky-col{position:sticky; top:120px;}
+
+/* ---------- motion: reveal (A3) ---------- */
+.js [data-reveal]{opacity:0; transform:translateY(40px); filter:blur(8px);
+  transition:opacity .9s var(--ease-soft), transform .9s var(--ease-out-expo), filter .9s var(--ease-out-expo);}
+.js [data-reveal="up-sm"]{transform:translateY(14px);}
+.js [data-reveal="scale"]{transform:scale(.85);}
+.js [data-reveal].is-in{opacity:1; transform:none; filter:blur(0);}
+.js [data-reveal-group] > *{opacity:0; transform:translateY(40px); filter:blur(8px);
+  transition:opacity .9s var(--ease-soft), transform .9s var(--ease-out-expo), filter .9s var(--ease-out-expo);
+  transition-delay:calc(var(--i, 0) * 80ms);}
+.js [data-reveal-group].is-in > *{opacity:1; transform:none; filter:blur(0);}
+
+/* A4 mask slide-up */
+.mask .line{display:block; overflow:hidden; padding-bottom:.08em; margin-bottom:-.08em;}
+.mask .line > span{display:block;}
+.js .mask .line > span{transform:translateY(105%); transition:transform 1s var(--ease-out-expo);}
+.js .mask .line:nth-child(2) > span{transition-delay:90ms;}
+.js .mask .line:nth-child(3) > span{transition-delay:180ms;}
+.js .mask .line:nth-child(4) > span{transition-delay:270ms;}
+.js .mask.is-in .line > span{transform:none;}
+
+/* A5 clip reveal */
+.js .clip-reveal{opacity:0; clip-path:inset(100% 0 0 0 round var(--r-lg)); transform:translateY(40px) scale(.985);
+  transition:clip-path 1.1s var(--ease-out-expo), transform 1.1s var(--ease-out-expo), opacity .6s;}
+.js .clip-reveal.is-in{opacity:1; clip-path:inset(0 0 0 0 round var(--r-lg)); transform:none;}
+
+/* ---------- buttons (4.1) ---------- */
+.btn{display:inline-flex; align-items:center; justify-content:center; gap:10px; height:58px; padding:0 22px 0 30px;
+  border-radius:var(--r-pill); border:1px solid transparent; font-size:18px; font-weight:600; letter-spacing:-.01em; white-space:nowrap;
+  transition:background .42s, color .42s, border-color .42s, box-shadow .42s, transform .24s var(--ease-ui);}
+.btn:active{transform:scale(.98);}
+.btn--primary{background:var(--accent); color:#fff;}
+.btn--dark{background:var(--ink); color:#fff;}
+.btn--light{background:#fff; color:var(--ink);}
+.btn--ghost{background:rgba(255,255,255,.42); border-color:var(--line); color:var(--ink);
+  backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); height:42px; padding:0 16px; font-size:14px; font-weight:500;}
+.btn--ghost-dark{background:rgba(255,255,255,.06); border-color:var(--line-dark); color:#fff;}
+.btn--lg{height:74px; padding:0 32px 0 36px; font-size:22px; font-weight:700;}
+.btn .arrow{width:32px; height:32px; border-radius:50%; display:grid; place-items:center; background:rgba(255,255,255,.14);
+  transition:background .42s, transform .42s var(--ease-out-expo);}
+.btn--light .arrow, .btn--ghost .arrow{background:rgba(17,17,17,.06);}
+.btn .arrow svg{width:14px; height:14px; transition:transform .42s var(--ease-out-expo);}
+.btn--lg .arrow{width:42px; height:42px;}
+.btn--lg .arrow svg{width:18px; height:18px;}
+.btn.plain{padding:0 30px;}
+@media (hover:hover){
+  .btn--primary:hover{transform:translateY(-2px); box-shadow:var(--shadow-glow);}
+  .btn--dark:hover, .btn--light:hover{transform:translateY(-2px);}
+  .btn:hover .arrow svg{transform:translateX(4px);}
+  .btn--light:hover .arrow, .btn--dark:hover .arrow{background:var(--accent); color:#fff;}
+}
+
+.check-list li{position:relative; padding-left:26px; margin:10px 0; font-size:15px;}
+.check-list li::before{content:""; position:absolute; left:0; top:.55em; width:14px; height:8px; border-left:2px solid var(--accent-light); border-bottom:2px solid var(--accent-light); transform:rotate(-45deg) translateY(-3px);}
+
+/* ---------- header: full-width at top, shrinks to a floating pill on scroll ---------- */
+.site-header{position:fixed; top:0; left:50%; transform:translateX(-50%); width:100%; height:80px; z-index:100;
+  padding:0 clamp(20px,4vw,56px); display:flex; align-items:center; justify-content:space-between;
+  background:transparent; border:1px solid transparent; border-radius:0; box-shadow:none;
+  transition:top .4s var(--ease-out-expo), width .4s var(--ease-out-expo), height .4s var(--ease-out-expo), padding .4s var(--ease-out-expo),
+    border-radius .4s var(--ease-out-expo), background .4s var(--ease-out-expo), border-color .4s var(--ease-out-expo), box-shadow .4s var(--ease-out-expo);}
+.site-header.scrolled{top:10px; width:min(900px, calc(100% - 32px)); height:58px; padding:0 9px 0 26px; border-radius:var(--r-pill);
+  background:rgba(255,255,255,.92); border-color:rgba(17,17,17,.07); box-shadow:0 10px 34px rgba(17,17,17,.1);
+  backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px);}
+.wordmark{font-family:Poppins,sans-serif; font-size:23px; font-weight:800; letter-spacing:-.03em; line-height:1; white-space:nowrap; transition:font-size .4s var(--ease-out-expo);}
+.site-header.scrolled .wordmark{font-size:19px;}
+.site-nav{position:absolute; left:50%; transform:translateX(-50%); display:flex; gap:40px; transition:gap .4s var(--ease-out-expo);}
+.site-header.scrolled .site-nav{gap:30px;}
+.site-nav a{font-size:15px; font-weight:500; color:var(--ink-2); white-space:nowrap; transition:color .24s;}
+.site-nav a:hover{color:var(--ink);}
+.head-cta{height:44px; padding:0 22px; font-size:15px; transition:height .4s var(--ease-out-expo), background .42s, box-shadow .42s, transform .24s var(--ease-ui);}
+.site-header.scrolled .head-cta{height:40px; padding:0 18px; font-size:14px;}
+.menu-btn{display:none; width:42px; height:42px; border-radius:50%; border:1px solid var(--line); background:rgba(255,255,255,.42);
+  flex-direction:column; align-items:center; justify-content:center; gap:5px;}
+.menu-btn span{display:block; width:16px; height:1.5px; background:var(--ink);}
+
+.full-menu{position:fixed; inset:0; z-index:110; background:var(--black); color:#fff; display:flex; flex-direction:column;
+  padding:24px var(--gutter) 40px;}
+.full-menu .fm-top{display:flex; justify-content:space-between; align-items:center; height:56px;}
+.full-menu .close-btn{width:42px; height:42px; border-radius:50%; border:1px solid var(--line-dark); display:grid; place-items:center;}
+.full-menu nav{margin-top:auto; margin-bottom:auto; display:flex; flex-direction:column; gap:10px;}
+.full-menu .fm-link{display:block; overflow:hidden; font-size:40px; font-weight:800; letter-spacing:-.035em; line-height:1.3;}
+.full-menu .fm-link span{display:block; animation:maskUp .9s var(--ease-out-expo) both;}
+.full-menu .fm-link:nth-child(2) span{animation-delay:.09s;}
+.full-menu .fm-link:nth-child(3) span{animation-delay:.18s;}
+.full-menu .fm-link:nth-child(4) span{animation-delay:.27s;}
+.full-menu .btn{width:100%;}
+@keyframes maskUp{from{transform:translateY(105%);} to{transform:none;}}
+
+@media (max-width:1024px){
+  .site-nav, .head-cta{display:none;}
+  .menu-btn{display:flex;}
+  .site-header.scrolled{padding:0 8px 0 22px;}
+}
+@media (max-width:767px){
+  .site-header, .site-header.scrolled{top:10px; width:calc(100% - 32px); height:58px; padding:0 8px 0 20px; border-radius:var(--r-pill);
+    background:rgba(255,255,255,.92); border-color:rgba(17,17,17,.07); box-shadow:0 10px 34px rgba(17,17,17,.1);}
+  .site-header .wordmark{font-size:19px;}
+}
+
+/* ---------- 1. hero ---------- */
+.hero{position:relative; height:300vh; background:var(--white);}
+.hero-sticky{position:sticky; top:0; height:100vh; min-height:640px; overflow:hidden; display:flex; align-items:center; justify-content:center;}
+.hero-grid{position:absolute; inset:0; background-image:linear-gradient(var(--grid-line) 1px, transparent 1px), linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size:80px 80px; background-position:center center;
+  -webkit-mask-image:radial-gradient(ellipse 70% 70% at 50% 45%, #000 45%, transparent 100%); mask-image:radial-gradient(ellipse 70% 70% at 50% 45%, #000 45%, transparent 100%);}
+.hero-band{position:absolute; left:-15%; right:-15%; bottom:-22%; height:58%; filter:blur(48px); opacity:.85;
+  background:radial-gradient(38% 55% at 25% 60%, rgba(94,81,240,.55), transparent 70%),
+             radial-gradient(34% 50% at 52% 72%, rgba(178,164,255,.55), transparent 70%),
+             radial-gradient(34% 52% at 78% 62%, rgba(255,168,206,.5), transparent 70%);
+  background-size:150% 150%; animation:bandFlow 20s ease-in-out infinite alternate;}
+@keyframes bandFlow{0%{background-position:0% 40%;} 100%{background-position:100% 60%;}}
+.hero-grain{position:absolute; inset:0; width:100%; height:100%; opacity:.04; pointer-events:none;}
+.hero-deco{position:absolute; inset:0; pointer-events:none;}
+.orbit{position:absolute; left:50%; top:50%; width:220px; height:220px; margin:-110px 0 0 -110px; border-radius:50%;
+  background:radial-gradient(circle, var(--accent-glow), transparent 70%); filter:blur(30px);}
+.orbit--outer{animation:orbitOuter 14s linear infinite;}
+.orbit--inner{animation:orbitInner 19s linear infinite; opacity:.8;}
+@keyframes orbitOuter{from{transform:rotate(0) translateX(min(29vw,380px)) rotate(0);} to{transform:rotate(360deg) translateX(min(29vw,380px)) rotate(-360deg);}}
+@keyframes orbitInner{from{transform:rotate(190deg) translateX(min(20vw,286px)) rotate(-190deg);} to{transform:rotate(550deg) translateX(min(20vw,286px)) rotate(-550deg);}}
+.intro-words{position:absolute; left:0; right:0; top:50%; height:0;}
+.intro-word{position:absolute; left:0; right:0; top:0; transform:translateY(-50%); text-align:center; white-space:nowrap;
+  font-family:Poppins,sans-serif; font-size:clamp(90px,15vw,220px); font-weight:800; letter-spacing:-.03em; line-height:1;
+  color:transparent; -webkit-text-stroke:1.5px rgba(17,17,17,.1); opacity:0; animation:introWord 14.4s var(--ease-out-quint) infinite;}
+.intro-word:nth-child(2){animation-delay:3.6s;}
+.intro-word:nth-child(3){animation-delay:7.2s;}
+.intro-word:nth-child(4){animation-delay:10.8s;}
+@keyframes introWord{0%{opacity:0; transform:translateY(calc(-50% + 80px)) scale(.98);} 4.5%{opacity:1;} 11%{opacity:0; transform:translateY(calc(-50% - 76px)) scale(1.02);} 100%{opacity:0; transform:translateY(calc(-50% - 76px));}}
+
+.hero-inner{position:relative; z-index:2; text-align:center; padding:0 var(--gutter); max-width:1200px; will-change:transform;}
+.hero-title{font-size:clamp(46px,7vw,104px); line-height:1.1; letter-spacing:-.05em; margin-bottom:30px;}
+.hero-title .l1{display:block; font-weight:500;}
+.hero-title .l2{display:block; font-weight:900;}
+.char{display:inline-block;}
+.js .hero-title .char{opacity:0; transform:translateY(.35em); filter:blur(10px);
+  transition:opacity .8s var(--ease-soft) var(--d, 0ms), transform .9s var(--ease-out-expo) var(--d, 0ms), filter .9s var(--ease-out-expo) var(--d, 0ms);}
+.js .hero-inner.is-in .hero-title .char{opacity:1; transform:none; filter:blur(0);}
+.hero-sub{font-size:clamp(17px,1.5vw,21px); letter-spacing:-.01em; color:var(--muted); max-width:640px; margin:0 auto 32px;}
+.hero-chips{display:flex; flex-wrap:wrap; justify-content:center; gap:8px; margin-bottom:36px;}
+.hero-ctas{display:flex; flex-wrap:wrap; justify-content:center; gap:12px;}
+.js .hero-after{opacity:0; transform:translateY(24px); filter:blur(8px);
+  transition:opacity .9s var(--ease-soft), transform .9s var(--ease-out-expo), filter .9s var(--ease-out-expo);}
+.js .hero-inner.is-in .hero-after{opacity:1; transform:none; filter:blur(0);}
+.js .hero-inner.is-in .hero-eyebrow{transition-delay:.05s;}
+.js .hero-inner.is-in .hero-sub{transition-delay:.62s;}
+.js .hero-inner.is-in .hero-chips{transition-delay:.72s;}
+.js .hero-inner.is-in .hero-ctas{transition-delay:.82s;}
+.hero-label{position:absolute; left:var(--gutter); bottom:32px; z-index:2; font-family:Poppins,sans-serif; font-size:12px; font-weight:600; letter-spacing:.16em; color:var(--muted);}
+.hero-scroll{position:absolute; right:var(--gutter); bottom:32px; z-index:2; font-family:Poppins,sans-serif; font-size:12px; font-weight:600; letter-spacing:.16em; color:var(--muted); display:flex; align-items:center; gap:10px;}
+.hero-scroll i{display:block; width:1px; height:36px; background:var(--faint); position:relative; overflow:hidden;}
+.hero-scroll i::after{content:""; position:absolute; left:0; top:-40%; width:1px; height:40%; background:var(--ink); animation:scrollCue 1.8s var(--ease-smooth) infinite;}
+@keyframes scrollCue{to{top:100%;}}
+
+/* ---------- 2. marquee (A8) ---------- */
+.marquee-band{padding-block:clamp(36px,5vw,72px); background:var(--white);}
+.marquee{overflow:hidden; -webkit-mask-image:linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); mask-image:linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);}
+.marquee__track{display:flex; width:max-content; animation:marquee 48s linear infinite;}
+.marquee__group{display:flex; align-items:center; gap:clamp(40px,5vw,80px); padding-right:clamp(40px,5vw,80px);}
+.marquee__item{font-family:Poppins,sans-serif; font-size:clamp(44px,7vw,96px); font-weight:800; letter-spacing:-.03em; line-height:1.1; white-space:nowrap;}
+.marquee__item.outline{color:transparent; -webkit-text-stroke:1.5px var(--faint);}
+.marquee__star{width:clamp(18px,2vw,28px); height:clamp(18px,2vw,28px); color:var(--accent); flex-shrink:0;}
+.marquee:hover .marquee__track{animation-play-state:paused;}
+@keyframes marquee{to{transform:translateX(-50%);}}
+
+/* ---------- 3. service panel ---------- */
+.service{padding-block:0 var(--section-y);}
+.service-bleed{padding-inline:16px;}
+.service-panel{background:var(--black); color:#fff; border-radius:var(--r-2xl); padding:clamp(100px,14vw,200px) clamp(24px,5vw,96px);}
+.service-grid{display:grid; grid-template-columns:minmax(0,4fr) minmax(0,8fr); gap:clamp(60px,5vw,96px); align-items:center; max-width:1560px; margin-inline:auto;}
+.service-title{font-size:clamp(40px,4.9vw,70px); letter-spacing:-.035em; line-height:1.18;}
+.service-title .w5{font-weight:500;}
+.service-title .w8{font-weight:800;}
+.service-copy{color:var(--on-dark-2); font-size:17px; margin:28px 0 36px; max-width:380px;}
+.svc-cards{display:flex; gap:12px; align-items:flex-start;}
+.svc-card{flex:1 1 0; min-width:0;}
+.svc-card:nth-child(2){margin-top:56px;}
+.svc-card:nth-child(3){margin-top:18px;}
+.svc-card:nth-child(4){margin-top:72px;}
+.svc-card:nth-child(5){margin-top:30px;}
+.svc-float{background:#fff; color:var(--ink); border-radius:20px; padding:22px 16px 24px; min-height:300px; display:flex; flex-direction:column; gap:16px;}
+.svc-card:nth-child(odd) .svc-float{animation:floatA 3.2s ease-in-out infinite;}
+.svc-card:nth-child(even) .svc-float{animation:floatB 3.6s ease-in-out infinite;}
+.svc-num{font-family:Poppins,sans-serif; font-size:12px; font-weight:600; color:var(--accent);}
+.svc-name{font-family:Poppins,sans-serif; font-size:clamp(18px,1.7vw,22px); font-weight:800; letter-spacing:-.02em; text-transform:uppercase; line-height:1;}
+.svc-icon{width:48px; height:48px; color:var(--ink); margin-top:auto;}
+.svc-desc{font-size:13.5px; color:var(--ink-2); line-height:1.5;}
+.svc-desc b{display:block; font-weight:700; color:var(--ink); margin-bottom:2px;}
+@keyframes floatA{50%{transform:translateY(-16px);}}
+@keyframes floatB{50%{transform:translateY(-20px);}}
+@media (max-width:1180px){
+  .service-grid{grid-template-columns:1fr; gap:56px;}
+  .service-copy{max-width:520px;}
+}
+
+/* ---------- 4. message (A6) ---------- */
+.message{z-index:2; padding-block:calc(var(--section-y) + 40px) var(--section-y); text-align:center;}
+.message .eyebrow{color:var(--on-dark-3);}
+.fill-text{font-size:clamp(34px,4.9vw,70px); font-weight:800; letter-spacing:-.035em; line-height:1.3; max-width:1100px; margin:0 auto;}
+.fill-text .row{display:block;}
+.fill-text .row.w5 .fill-char{font-weight:500;}
+.fill-char{color:rgba(255,255,255,.2); transition:color .25s linear;}
+.fill-char.on{color:#fff;}
+
+/* ---------- 5. features: sticky stack (A11) ---------- */
+.features{z-index:3; background:var(--white);}
+.stack-list{display:flex; flex-direction:column; gap:48px;}
+.stack-card{position:sticky; height:clamp(420px,62vh,540px); transform-origin:50% 0;
+  background:linear-gradient(rgba(0,0,0,.5), transparent), #181818; color:#fff; border:1px solid var(--line-dark); border-radius:var(--r-lg);
+  padding:48px 60px 48px 80px; display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:56px; align-items:center; will-change:transform;}
+.stack-num{font-family:Poppins,sans-serif; font-size:14px; font-weight:600; color:var(--accent-light); margin-bottom:18px;}
+.stack-card h3{font-size:clamp(26px,2.6vw,38px); font-weight:800; line-height:1.3; letter-spacing:-.035em; margin-bottom:18px;}
+.stack-card p{color:var(--on-dark-2); font-size:17px; margin-bottom:18px;}
+.stack-card .check-list li{color:var(--on-dark-2);}
+.stack-visual{height:100%; max-height:380px; border-radius:var(--r-md); background:var(--black-3); border:1px solid var(--line-dark); position:relative; overflow:hidden; padding:28px;
+  display:flex; flex-direction:column; justify-content:center; gap:12px;}
+.sv-row{display:flex; align-items:center; gap:12px; padding:14px 16px; border-radius:12px; background:rgba(255,255,255,.04); border:1px solid var(--line-dark);}
+.sv-row.hl{border-color:var(--accent-light); background:rgba(94,81,240,.14);}
+.sv-dot{width:28px; height:28px; border-radius:8px; background:rgba(255,255,255,.1); flex-shrink:0; display:grid; place-items:center; font-family:Poppins,sans-serif; font-size:12px; font-weight:700;}
+.sv-row.hl .sv-dot{background:var(--accent); color:#fff;}
+.sv-lines{flex:1; display:flex; flex-direction:column; gap:7px;}
+.sv-line{height:7px; border-radius:4px; background:rgba(255,255,255,.14);}
+.sv-line.w40{width:40%;} .sv-line.w60{width:60%;} .sv-line.w75{width:75%;} .sv-line.w90{width:90%;}
+.sv-search{display:flex; align-items:center; gap:10px; padding:0 16px; height:46px; border-radius:999px; background:rgba(255,255,255,.08); border:1px solid var(--line-dark); margin-bottom:6px; font-size:13px; color:var(--on-dark-3);}
+.sv-search svg{width:16px; height:16px;}
+.sv-field{height:44px; border-radius:10px; background:rgba(255,255,255,.05); border:1px solid var(--line-dark); display:flex; align-items:center; padding:0 14px; font-size:12.5px; color:var(--on-dark-3);}
+.sv-field.tall{height:88px; align-items:flex-start; padding-top:12px;}
+.sv-submit{height:46px; border-radius:999px; background:var(--accent); color:#fff; display:grid; place-items:center; font-size:14px; font-weight:600; margin-top:4px;}
+.sv-devices{flex-direction:row; align-items:flex-end; justify-content:center; gap:18px;}
+.sv-desktop{width:68%; aspect-ratio:16/10; border-radius:10px; border:1px solid var(--line-dark); background:rgba(255,255,255,.05); padding:10px; display:flex; flex-direction:column; gap:6px;}
+.sv-phone{width:20%; aspect-ratio:9/18; border-radius:14px; border:1px solid var(--line-dark); background:rgba(255,255,255,.05); padding:8px 6px; display:flex; flex-direction:column; gap:5px;}
+.sv-block{border-radius:6px; background:rgba(255,255,255,.1);}
+.sv-block.acc{background:linear-gradient(135deg, rgba(94,81,240,.7), rgba(126,122,255,.35));}
+.sv-log{display:flex; align-items:center; gap:12px; font-size:13px; color:var(--on-dark-2); padding:10px 0; border-bottom:1px solid var(--line-dark);}
+.sv-log:last-child{border-bottom:none;}
+.sv-log .ok{width:22px; height:22px; border-radius:50%; background:rgba(126,122,255,.2); color:var(--accent-light); display:grid; place-items:center; flex-shrink:0;}
+.sv-log .ok svg{width:12px; height:12px;}
+.sv-log .when{margin-left:auto; font-family:Poppins,sans-serif; font-size:11px; color:var(--on-dark-3);}
+
+/* ---------- 6. roll text (A9) ---------- */
+.roll{position:relative; z-index:3; background:var(--white); padding-block:var(--section-y-sm); overflow:hidden;}
+.roll-row{font-family:Poppins,sans-serif; font-size:clamp(72px,12vw,180px); font-weight:800; line-height:1; letter-spacing:-.02em; white-space:nowrap; will-change:transform;}
+.roll-row + .roll-row{margin-top:.08em;}
+.roll-row .outline{color:transparent; -webkit-text-stroke:1.5px var(--faint);}
+.roll-row .accent-bar{box-shadow:inset 0 -.18em 0 var(--accent);}
+.roll-row.r1{transform:translateX(10%);}
+.roll-row.r2{transform:translateX(-20%);}
+
+/* ---------- 7. portfolio (4.6) ---------- */
+.works{z-index:4; background:var(--paper-alt);}
+.work-list{border-top:1px solid var(--line); margin-top:48px;}
+.work-row{width:100%; display:grid; grid-template-columns:56px 1fr auto; align-items:center; gap:12px; min-height:84px; border-bottom:1px solid var(--line); text-align:left;}
+.work-row .wr-num{font-family:Poppins,sans-serif; font-size:24px; font-weight:600; color:var(--faint); transition:color .3s, transform .5s var(--ease-out-expo) 80ms;}
+.work-row .wr-title{font-size:18px; font-weight:700; transition:transform .5s var(--ease-out-expo) 130ms;}
+.work-row .wr-sub{font-family:Poppins,sans-serif; font-size:11px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); transition:transform .5s var(--ease-out-expo) 180ms, color .3s;}
+.work-row.active .wr-num{color:var(--accent);}
+.work-row.active .wr-num, .work-row.active .wr-title, .work-row.active .wr-sub{transform:translateX(6px);}
+@media (hover:hover){ .work-row:hover .wr-num, .work-row:hover .wr-title, .work-row:hover .wr-sub{transform:translateX(6px);} }
+.work-link{display:inline-flex; align-items:center; gap:8px; margin-top:32px; font-size:15px; font-weight:600;}
+.work-link svg{width:14px; height:14px; transition:transform .3s var(--ease-out-expo);}
+.work-link:hover svg{transform:translate(3px,-3px);}
+.preview-wrap{position:relative; padding-top:60px;}
+.preview-bgnum{position:absolute; right:0; top:0; font-family:Poppins,sans-serif; font-size:clamp(160px,18vw,280px); font-weight:800; line-height:1; letter-spacing:-.04em; color:var(--faint); opacity:.5; pointer-events:none;}
+.preview-card{position:relative; z-index:1; background:#fff; border-radius:var(--r-lg); box-shadow:var(--shadow-soft); border:1px solid var(--line); padding:14px;}
+.preview-screen{position:relative; aspect-ratio:16/11; border-radius:14px; overflow:hidden; background:var(--paper-soft);}
+.preview{position:absolute; inset:0; opacity:0; transform:translateY(20px); transition:opacity .5s var(--ease-smooth), transform .5s var(--ease-smooth);}
+.preview.active{opacity:1; transform:none;}
+.mock-page{padding:16px; display:flex; flex-direction:column; gap:12px;}
+.clip-reveal.is-in .preview.active .mock-page{animation:previewScroll 8s var(--ease-smooth) 1s infinite alternate;}
+@keyframes previewScroll{from{transform:translateY(0);} to{transform:translateY(-32%);}}
+.shot{display:block; width:100%; height:auto;}
+.clip-reveal.is-in .preview.active .shot{animation:shotScroll 28s linear 1.5s infinite alternate both;}
+@keyframes shotScroll{from{transform:translateY(0);} to{transform:translateY(-53.5%);}}
+.clip-reveal.is-in .preview.active .shot-long{animation:shotScrollLong 220s linear 1.5s infinite alternate both;}
+.preview-card:hover .shot, .preview-card:hover .mock-page{animation-play-state:paused;}
+@keyframes shotScrollLong{from{transform:translateY(0);} to{transform:translateY(-90.3%);}}
+.clip-reveal.is-in .preview.active .shot-xlong{animation:shotScrollXLong 380s linear 1.5s infinite alternate both;}
+@keyframes shotScrollXLong{from{transform:translateY(0);} to{transform:translateY(-94.2%);}}
+.clip-reveal.is-in .preview.active .shot-gyeol{animation:shotScrollGyeol 300s linear 1.5s infinite alternate both;}
+@keyframes shotScrollGyeol{from{transform:translateY(0);} to{transform:translateY(-92.6%);}}
+.mk-nav{display:flex; align-items:center; gap:10px; height:26px;}
+.mk-logo{width:56px; height:12px; border-radius:3px; background:var(--ink);}
+.mk-links{display:flex; gap:8px; margin-left:auto;}
+.mk-links i{display:block; width:30px; height:6px; border-radius:3px; background:var(--faint);}
+.mk-pill{width:54px; height:20px; border-radius:999px; background:var(--ink);}
+.mk-hero{height:210px; border-radius:12px; padding:28px; display:flex; flex-direction:column; justify-content:flex-end; gap:9px;}
+.mk-hero i{display:block; height:12px; border-radius:4px; background:rgba(255,255,255,.85);}
+.mk-hero i:first-child{width:62%; height:18px;} .mk-hero i:nth-child(2){width:40%;}
+.mk-hero.light i{background:rgba(17,17,17,.7);}
+.mk-row{display:grid; gap:10px;}
+.mk-row.c3{grid-template-columns:repeat(3,1fr);} .mk-row.c2{grid-template-columns:repeat(2,1fr);}
+.mk-card{height:96px; border-radius:10px; background:#e9e9e6;}
+.mk-card.tall{height:140px;}
+.mk-text{display:flex; flex-direction:column; gap:7px; padding:6px 0;}
+.mk-text i{display:block; height:8px; border-radius:4px; background:rgba(17,17,17,.12);}
+.mk-text i:nth-child(1){width:46%; height:12px; background:rgba(17,17,17,.3);} .mk-text i:nth-child(2){width:88%;} .mk-text i:nth-child(3){width:72%;}
+.mk-band{height:120px; border-radius:12px;}
+.mk-foot{height:70px; border-radius:10px; background:#1b1b1b;}
+.tone-1{background:linear-gradient(135deg,#2b2a33,#4a4760);} .tone-1b{background:#dcdbe6;}
+.tone-2{background:linear-gradient(135deg,#e8e3da,#cfc6b6);} .tone-2b{background:#2c2a26;}
+.tone-3{background:linear-gradient(135deg,#1f2a28,#35514b);} .tone-3b{background:#dde6e3;}
+.tone-4{background:linear-gradient(135deg,#ecebf6,#c9c6ee);} .tone-4b{background:#1d1c26;}
+.preview-meta{display:grid; grid-template-columns:repeat(3,auto) 1fr; gap:28px; align-items:end; padding:18px 10px 6px;}
+.preview-meta dt{font-family:Poppins,sans-serif; font-size:11px; font-weight:600; letter-spacing:.12em; color:var(--muted); margin-bottom:4px;}
+.preview-meta dd{margin:0; font-size:15px; font-weight:600;}
+.preview-meta .view{justify-self:end; display:inline-flex; align-items:center; gap:6px; font-family:Poppins,sans-serif; font-size:13px; font-weight:700; letter-spacing:.06em;}
+.preview-meta .view svg{width:14px; height:14px;}
+
+/* ---------- 9. process (A12) ---------- */
+.process{z-index:5;}
+.proc-frame{position:relative; margin-top:48px; aspect-ratio:4/3; border-radius:var(--r-lg); overflow:hidden; background:var(--black-2); border:1px solid var(--line-dark);}
+.proc-img{position:absolute; inset:0; opacity:0; transform:scale(1.06); transition:opacity .8s var(--ease-smooth), transform .8s var(--ease-smooth), filter .8s var(--ease-smooth);
+  display:grid; place-items:center;}
+.proc-img.active{opacity:1; transform:scale(1);}
+.proc-img.past{filter:brightness(.55);}
+.proc-img .glow{position:absolute; width:70%; aspect-ratio:1; border-radius:50%; background:radial-gradient(circle, var(--accent-glow), transparent 65%); filter:blur(20px);}
+.proc-img .big{position:absolute; left:28px; bottom:10px; font-family:Poppins,sans-serif; font-size:clamp(90px,10vw,150px); font-weight:800; line-height:1; letter-spacing:-.04em; color:rgba(255,255,255,.06);}
+.proc-img svg{position:relative; width:28%; height:28%; color:#fff;}
+.proc-steps{display:flex; flex-direction:column;}
+.pstep{min-height:62vh; display:flex; flex-direction:column; justify-content:center; padding:40px 0; border-bottom:1px solid var(--line-dark); opacity:.3; transition:opacity .5s var(--ease-smooth);}
+.pstep:last-child{border-bottom:none;}
+.pstep.active{opacity:1;}
+.pstep-num{font-family:Poppins,sans-serif; font-size:14px; font-weight:600; letter-spacing:.12em; color:var(--accent-light); margin-bottom:16px;}
+.pstep h3{font-size:clamp(24px,2.5vw,36px); font-weight:700; line-height:1.4; margin-bottom:14px;}
+.pstep p{color:var(--on-dark-2); font-size:17px; max-width:520px;}
+.pstep .check-list{margin-top:18px;}
+.pstep .check-list li{color:var(--on-dark-2);}
+
+/* ---------- 12. faq (4.7) ---------- */
+.faq{z-index:6; background:var(--white);}
+.faq-list{border-top:1px solid var(--line);}
+.faq-item{border-bottom:1px solid var(--line);}
+.faq-q{width:100%; min-height:80px; display:grid; grid-template-columns:44px 1fr auto; align-items:center; gap:10px; padding:18px 0; text-align:left;}
+.faq-q .n{font-family:Poppins,sans-serif; font-size:14px; font-weight:600; color:var(--accent);}
+.faq-q .q{font-size:18px; font-weight:600; letter-spacing:-.02em;}
+.faq-q .plus{font-size:20px; font-weight:300; line-height:1; transition:transform .45s var(--ease-smooth);}
+.faq-item.open .plus{transform:rotate(45deg);}
+.faq-a-wrap{display:grid; grid-template-rows:0fr; transition:grid-template-rows .45s var(--ease-smooth);}
+.faq-item.open .faq-a-wrap{grid-template-rows:1fr;}
+.faq-a-inner{overflow:hidden;}
+.faq-a{padding:0 40px 26px 54px; color:var(--muted); font-size:16px; line-height:1.7;}
+.faq-side .btn{margin-top:36px;}
+
+/* ---------- 13. final cta ---------- */
+.final{z-index:7; padding-block:var(--section-y); overflow:hidden;}
+.cta-canvas{position:absolute; inset:0; width:100%; height:100%; pointer-events:none;}
+.final-inner{position:relative; z-index:2; display:grid; grid-template-columns:minmax(0,1fr) minmax(0,560px); gap:clamp(48px,6vw,96px); align-items:center;}
+.final .eyebrow{color:var(--accent-light);}
+.final-title{font-size:clamp(40px,4.9vw,70px); font-weight:800; letter-spacing:-.035em; line-height:1.24; margin-bottom:28px;}
+.final-lead{color:var(--on-dark-2); font-size:clamp(17px,1.5vw,20px); line-height:1.6;}
+
+/* booking form */
+.book-card{background:#fff; color:var(--ink); border-radius:var(--r-lg); padding:clamp(28px,3vw,40px); box-shadow:var(--shadow-float);}
+.book-form{display:flex; flex-direction:column; gap:20px;}
+.bf-head h3{font-size:24px; font-weight:800; letter-spacing:-.03em; margin-bottom:4px;}
+.bf-head p{font-size:13px; color:var(--muted);}
+.req{color:var(--accent); font-weight:600;}
+.bf-row{display:grid; gap:14px;}
+.bf-row.two{grid-template-columns:1fr 1fr;}
+.bf-row.date-row{grid-template-columns:minmax(0,190px) 1fr; align-items:start;}
+.bf-field{display:flex; flex-direction:column; gap:8px; margin:0; padding:0; border:none; min-width:0;}
+.bf-label{font-size:14px; font-weight:600; padding:0;}
+.bf-field input[type="text"], .bf-field input[type="tel"], .bf-field input[type="date"], .bf-field textarea{
+  width:100%; height:50px; padding:0 16px; border:1px solid var(--line); border-radius:var(--r-sm); background:var(--paper-soft);
+  font:inherit; font-size:15px; color:var(--ink); transition:border-color .24s, background .24s, box-shadow .24s;}
+.bf-field textarea{height:auto; min-height:92px; padding:14px 16px; resize:vertical; line-height:1.5;}
+.bf-field input::placeholder, .bf-field textarea::placeholder{color:rgba(17,17,17,.36);}
+.bf-field input:focus, .bf-field textarea:focus{outline:none; border-color:var(--accent); background:#fff; box-shadow:0 0 0 4px var(--accent-tint);}
+.chip-group{display:flex; flex-wrap:wrap; gap:8px;}
+.chip{position:relative; cursor:pointer;}
+.chip input{position:absolute; opacity:0; width:1px; height:1px; pointer-events:none;}
+.chip span{display:inline-flex; align-items:center; height:40px; padding:0 16px; border:1px solid var(--line); border-radius:var(--r-pill);
+  font-size:14px; font-weight:500; color:var(--ink-2); background:#fff; transition:background .24s, color .24s, border-color .24s;}
+.chip:hover span{border-color:rgba(17,17,17,.3);}
+.chip input:checked + span{background:var(--ink); border-color:var(--ink); color:#fff;}
+.chip input:focus-visible + span{outline:2px solid var(--accent); outline-offset:2px;}
+.bf-agree{display:flex; gap:10px; align-items:flex-start; font-size:14px; cursor:pointer; line-height:1.5;}
+.bf-agree input{width:18px; height:18px; margin:2px 0 0; accent-color:var(--accent); flex-shrink:0;}
+.bf-agree small{font-size:12px; color:var(--muted);}
+.bf-submit{width:100%; justify-content:space-between;}
+.bf-submit:disabled{opacity:.6; cursor:progress; transform:none; box-shadow:none;}
+.bf-error{font-size:14px; color:#d93025; background:#fdecea; border-radius:var(--r-sm); padding:12px 14px;}
+.bf-hp{position:absolute; left:-9999px; width:1px; height:1px; opacity:0;}
+.book-done{text-align:center; padding:28px 0 8px; display:flex; flex-direction:column; align-items:center;}
+.done-icon{width:64px; height:64px; border-radius:50%; background:var(--accent-tint); color:var(--accent); display:grid; place-items:center; margin-bottom:22px;}
+.done-icon svg{width:28px; height:28px;}
+.book-done h3{font-size:24px; font-weight:800; letter-spacing:-.03em; margin-bottom:10px;}
+.book-done > p{color:var(--muted); font-size:15px; margin-bottom:26px;}
+.done-summary{width:100%; margin:0 0 28px; border-top:1px solid var(--line); text-align:left;}
+.done-summary div{display:flex; justify-content:space-between; gap:16px; padding:14px 2px; border-bottom:1px solid var(--line); font-size:15px;}
+.done-summary dt{color:var(--muted);}
+.done-summary dd{margin:0; font-weight:600;}
+@media (max-width:1024px){
+  .final-inner{grid-template-columns:1fr;}
+}
+@media (max-width:560px){
+  .bf-row.two, .bf-row.date-row{grid-template-columns:1fr;}
+}
+.final-title .row{display:block; overflow:hidden; padding-bottom:.06em;}
+.final-title .row.w5 .word{font-weight:500;}
+.word{display:inline-block; margin-right:.24em;}
+.word:last-child{margin-right:0;}
+.js .final-title .word{opacity:0; transform:translateY(120px);}
+.js .final-title.is-in .word{animation:flyUp 1.55s var(--ease-smooth) forwards;}
+.js .final-title.is-in .row:nth-child(1) .word:nth-child(1){animation-delay:.1s;}
+.js .final-title.is-in .row:nth-child(1) .word:nth-child(2){animation-delay:.22s;}
+.js .final-title.is-in .row:nth-child(1) .word:nth-child(3){animation-delay:.34s;}
+.js .final-title.is-in .row:nth-child(2) .word:nth-child(1){animation-delay:.46s;}
+.js .final-title.is-in .row:nth-child(2) .word:nth-child(2){animation-delay:.58s;}
+.js .final-title.is-in .row:nth-child(2) .word:nth-child(3){animation-delay:.7s;}
+@keyframes flyUp{to{opacity:1; transform:translateY(0);}}
+.final-checks{display:flex; flex-direction:column; gap:12px; margin-top:36px; color:var(--on-dark-2); font-size:15px;}
+.final-checks span{display:inline-flex; align-items:center; gap:8px;}
+.final-checks svg{width:16px; height:16px; color:var(--accent-light);}
+
+/* ---------- 14. footer (4.10) ---------- */
+.site-footer{background:#070707; color:var(--on-dark-3); padding:80px 0 36px; overflow:hidden; position:relative; z-index:8;}
+.footer-mark{font-family:Poppins,sans-serif; font-size:clamp(80px,14vw,220px); font-weight:800; letter-spacing:-.04em; line-height:.9; color:rgba(255,255,255,.06); white-space:nowrap; margin-bottom:56px;}
+.footer-cols{display:grid; grid-template-columns:1.4fr 1fr 1fr; gap:40px; padding-bottom:48px; border-bottom:1px solid var(--line-dark);}
+.footer-cols h4{font-family:Poppins,sans-serif; font-size:12px; font-weight:600; letter-spacing:.16em; color:#fff; margin-bottom:16px;}
+.footer-cols p, .footer-cols li{font-size:13px; line-height:1.9;}
+.footer-cols a:hover{color:#fff;}
+.footer-bottom{display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px; padding-top:28px; font-size:13px;}
+.footer-bottom nav{display:flex; gap:20px;}
+
+/* ---------- floating: inquiry + top badge ---------- */
+.floaters{position:fixed; right:32px; bottom:32px; z-index:90; display:flex; flex-direction:column; align-items:flex-end; gap:14px;
+  opacity:0; transform:translateY(20px); pointer-events:none; transition:opacity .42s var(--ease-out-expo), transform .42s var(--ease-out-expo);}
+.floaters.show{opacity:1; transform:none; pointer-events:auto;}
+.top-badge{position:relative; width:72px; height:72px; border-radius:50%; background:#fff; border:1px solid var(--line); box-shadow:var(--shadow-float); display:grid; place-items:center;}
+.top-badge .ring{position:absolute; inset:0; animation:spin 12s linear infinite;}
+.top-badge .ring text{font-family:Poppins,sans-serif; font-size:8.6px; font-weight:600; letter-spacing:.14em; fill:var(--ink);}
+.top-badge .up{width:18px; height:18px;}
+.cta-glow{position:relative; isolation:isolate;}
+.cta-glow::before{content:""; position:absolute; inset:-12px; border-radius:inherit; background:var(--accent); filter:blur(24px); opacity:.5; z-index:-1; animation:glowPulse 2.4s ease-in-out infinite;}
+@keyframes glowPulse{0%,100%{opacity:.5; transform:scale(.9);} 50%{opacity:.9; transform:scale(1.18);}}
+.float-inquiry{box-shadow:var(--shadow-float);}
+.ping{position:relative; width:8px; height:8px; border-radius:50%; background:#3ddc84;}
+.ping::after{content:""; position:absolute; inset:0; border-radius:50%; background:#3ddc84; animation:ping 1s cubic-bezier(0,0,.2,1) infinite;}
+@keyframes ping{75%,100%{transform:scale(2); opacity:0;}}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+/* ---------- responsive ---------- */
+@media (max-width:1024px){
+  .split{grid-template-columns:1fr; gap:48px;}
+  .split .sticky-col{position:static;}
+  .service-panel{border-radius:var(--r-xl);}
+  .service-bleed{padding-inline:12px;}
+  .svc-cards{overflow-x:auto; scroll-snap-type:x mandatory; padding-bottom:28px; margin-right:calc(clamp(24px,4.5vw,64px) * -1); padding-right:clamp(24px,4.5vw,64px); padding-top:24px;}
+  .svc-card{flex:0 0 220px; scroll-snap-align:start; margin-top:0 !important;}
+  .proc-frame{display:none;}
+  .pstep{min-height:auto; opacity:1; padding:36px 0;}
+  .preview-bgnum{display:none;}
+  .footer-cols{grid-template-columns:1fr 1fr;}
+}
+@media (max-width:767px){
+  :root{--section-y:80px; --r-2xl:32px;}
+  .service-bleed{padding-inline:8px;}
+  .service-panel{border-radius:var(--r-2xl);}
+  .eyebrow{font-size:14px;}
+  .eyebrow.cap{font-size:11px;}
+  .display-l, .service-title, .final-title{font-size:30px;}
+  .h2{font-size:26px;}
+  .lead, .hero-sub{font-size:16px;}
+  .btn{height:50px; font-size:16px;}
+  .btn--lg{height:58px; font-size:17px;}
+  .hero-title{font-size:44px; letter-spacing:-.05em;}
+  .hero-sticky{min-height:600px;}
+  .hero-chips{display:none;}
+  .hero-scroll{display:none;}
+  .fill-text{font-size:28px;}
+  .stack-card{position:relative; top:auto !important; height:auto; grid-template-columns:1fr; padding:32px 24px; gap:28px;}
+  .stack-visual{min-height:260px;}
+  .roll-row{font-size:64px;}
+  .roll-row.r2{display:none;}
+  .work-row .wr-sub{display:none;}
+  .preview-meta{grid-template-columns:repeat(3,auto); gap:18px;}
+  .preview-meta .view{display:none;}
+  .faq-q{grid-template-columns:32px 1fr auto;}
+  .faq-q .q{font-size:16px;}
+  .faq-a{padding:0 12px 22px 42px; font-size:15px;}
+  .book-card{padding:24px 20px;}
+  .footer-cols{grid-template-columns:1fr;}
+  .floaters{right:16px; bottom:16px;}
+  .top-badge{display:none;}
+  .float-inquiry{height:52px; font-size:15px; padding:0 14px 0 20px;}
+}
+
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto;}
+  .hero{height:100vh;}
+  .js [data-reveal], .js [data-reveal-group] > *, .js .mask .line > span, .js .clip-reveal, .js .hero-title .char, .js .hero-after, .js .final-title .word{
+    opacity:1 !important; transform:none !important; filter:none !important; clip-path:none !important; animation:none !important; transition:none !important;}
+  .marquee__track, .svc-float, .orbit, .intro-word, .hero-band, .mock-page, .shot, .top-badge .ring, .cta-glow::before, .ping::after, .hero-scroll i::after{animation:none !important;}
+  .intro-word:first-child{opacity:1; transform:translateY(-50%);}
+  .fill-char{color:#fff;}
+  .stack-card{position:relative; top:auto !important;}
+}
+
+[hidden]{display:none !important;}
+</style>
+</head>
+<body>
+<div class="page" style="width: 100%; min-height: 100vh; position: relative;">
+
+  <header class="site-header">
+    <a href="#top" class="wordmark" aria-label="THE WEB 홈">THE WEB</a>
+    <nav class="site-nav" aria-label="주요 메뉴">
+      <a href="#service">서비스</a>
+      <a href="#works">포트폴리오</a>
+      <a href="#process">제작 과정</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <a href="#contact" class="btn btn--primary head-cta">무료 상담</a>
+    <button class="menu-btn" data-action="open-menu" aria-expanded="false" aria-controls="full-menu" aria-label="메뉴 열기"><span></span><span></span></button>
+  </header>
+
+  <div class="full-menu" role="dialog" aria-label="전체 메뉴" id="full-menu" hidden>
+      <div class="fm-top">
+        <span class="wordmark">THE WEB</span>
+        <button class="close-btn" data-action="close-menu" aria-label="메뉴 닫기">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="5" y1="5" x2="19" y2="19"></line><line x1="19" y1="5" x2="5" y2="19"></line></svg>
+        </button>
+      </div>
+      <nav>
+        <a href="#service" class="fm-link" data-action="close-menu"><span>서비스</span></a>
+        <a href="#works" class="fm-link" data-action="close-menu"><span>포트폴리오</span></a>
+        <a href="#process" class="fm-link" data-action="close-menu"><span>제작 과정</span></a>
+        <a href="#faq" class="fm-link" data-action="close-menu"><span>FAQ</span></a>
+      </nav>
+      <a href="#contact" class="btn btn--primary" data-action="close-menu">무료 상담 신청하기</a>
+    </div>
+  
+
+  <main>
+    <!-- 1. HERO -->
+    <section class="hero" id="top">
+      <div class="hero-sticky">
+        <div class="hero-grid"></div>
+        <div class="hero-band"></div>
+        <svg class="hero-grain" aria-hidden="true"><filter id="grain"><feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="3" stitchTiles="stitch"></feTurbulence></filter><rect width="100%" height="100%" filter="url(#grain)"></rect></svg>
+        <div class="hero-deco" aria-hidden="true">
+          <div class="orbit orbit--outer"></div>
+          <div class="orbit orbit--inner"></div>
+          <div class="intro-words">
+            <span class="intro-word">SEARCH</span>
+            <span class="intro-word">STRUCTURE</span>
+            <span class="intro-word">CONTENT</span>
+            <span class="intro-word">GROWTH</span>
+          </div>
+        </div>
+
+        <div class="hero-inner">
+          <p class="eyebrow cap hero-after hero-eyebrow">WEB DESIGN &amp; DEVELOPMENT STUDIO</p>
+          <h1 class="hero-title" aria-label="고객이 먼저 신뢰하는 브랜드 웹사이트">
+            <span class="l1" aria-hidden="true"><span class="char">고</span><span class="char">객</span><span class="char">이</span><span class="char">&nbsp;</span><span class="char">먼</span><span class="char">저</span><span class="char">&nbsp;</span><span class="char">신</span><span class="char">뢰</span><span class="char">하</span><span class="char">는</span></span>
+            <span class="l2" aria-hidden="true"><span class="char">브</span><span class="char">랜</span><span class="char">드</span><span class="char">&nbsp;</span><span class="char">웹</span><span class="char">사</span><span class="char">이</span><span class="char">트</span></span>
+          </h1>
+          <p class="hero-sub hero-after">기획부터 디자인, 개발, 검색 최적화까지.<br>방문자가 문의로 이어지는 웹사이트를 한 팀이 끝까지 만듭니다.</p>
+          <div class="hero-chips hero-after">
+            <span class="btn btn--ghost">반응형 웹사이트</span>
+            <span class="btn btn--ghost">검색 최적화</span>
+            <span class="btn btn--ghost">문의 전환 설계</span>
+            <span class="btn btn--ghost">런칭 후 관리</span>
+          </div>
+          <div class="hero-ctas hero-after">
+            <a href="#contact" class="btn btn--primary">무료 상담 신청하기
+              <span class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="13 6 19 12 13 18"></polyline></svg></span>
+            </a>
+            <a href="#works" class="btn btn--dark plain">포트폴리오 보기</a>
+          </div>
+        </div>
+
+        <p class="hero-label">SEO · AEO · GEO</p>
+        <p class="hero-scroll">SCROLL <i></i></p>
+      </div>
+    </section>
+
+    <!-- 2. MARQUEE -->
+    <section class="marquee-band" aria-label="서비스 키워드">
+      <div class="marquee">
+        <div class="marquee__track">
+          <div class="marquee__group">
+            <span class="marquee__item">WEBSITE DESIGN</span>
+            <svg class="marquee__star" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0l2.6 9.4L24 12l-9.4 2.6L12 24l-2.6-9.4L0 12l9.4-2.6z"></path></svg>
+            <span class="marquee__item outline">SEO · AEO</span>
+            <svg class="marquee__star" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0l2.6 9.4L24 12l-9.4 2.6L12 24l-2.6-9.4L0 12l9.4-2.6z"></path></svg>
+            <span class="marquee__item">LANDING PAGE</span>
+            <svg class="marquee__star" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0l2.6 9.4L24 12l-9.4 2.6L12 24l-2.6-9.4L0 12l9.4-2.6z"></path></svg>
+            <span class="marquee__item outline">BRAND SITE</span>
+            <svg class="marquee__star" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0l2.6 9.4L24 12l-9.4 2.6L12 24l-2.6-9.4L0 12l9.4-2.6z"></path></svg>
+          </div>
+          <div class="marquee__group" aria-hidden="true">
+            <span class="marquee__item">WEBSITE DESIGN</span>
+            <svg class="marquee__star" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0l2.6 9.4L24 12l-9.4 2.6L12 24l-2.6-9.4L0 12l9.4-2.6z"></path></svg>
+            <span class="marquee__item outline">SEO · AEO</span>
+            <svg class="marquee__star" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0l2.6 9.4L24 12l-9.4 2.6L12 24l-2.6-9.4L0 12l9.4-2.6z"></path></svg>
+            <span class="marquee__item">LANDING PAGE</span>
+            <svg class="marquee__star" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0l2.6 9.4L24 12l-9.4 2.6L12 24l-2.6-9.4L0 12l9.4-2.6z"></path></svg>
+            <span class="marquee__item outline">BRAND SITE</span>
+            <svg class="marquee__star" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0l2.6 9.4L24 12l-9.4 2.6L12 24l-2.6-9.4L0 12l9.4-2.6z"></path></svg>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. SERVICE (dark panel) -->
+    <section class="service" id="service">
+      <div class="service-bleed">
+        <div class="service-panel">
+          <div class="service-grid">
+            <div>
+              <p class="eyebrow cap" data-reveal="up-sm">OUR SERVICE</p>
+              <h2 class="service-title mask">
+                <span class="line"><span class="w5">검색에서</span></span>
+                <span class="line"><span class="w5">문의까지,</span></span>
+                <span class="line"><span class="w8">하나의</span></span>
+                <span class="line"><span class="w8">흐름으로</span></span>
+              </h2>
+              <p class="service-copy" data-reveal>웹사이트는 찾아지고, 이해되고, 문의로 이어질 때 비로소 일을 합니다. 그 전 과정을 한 팀이 설계하고 만듭니다.</p>
+              <div data-reveal>
+                <a href="#process" class="btn btn--light">제작 과정 보기
+                  <span class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="13 6 19 12 13 18"></polyline></svg></span>
+                </a>
+              </div>
+            </div>
+            <div class="svc-cards" data-reveal-group>
+              <article class="svc-card"><div class="svc-float">
+                <span class="svc-num">01</span>
+                <h3 class="svc-name">Plan</h3>
+                <svg class="svc-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="24" cy="24" r="17"></circle><circle cx="24" cy="24" r="9"></circle><circle cx="24" cy="24" r="1.5" fill="currentColor"></circle></svg>
+                <p class="svc-desc"><b>기획</b>타겟과 목표를 먼저 분석하고 구조를 설계합니다.</p>
+              </div></article>
+              <article class="svc-card"><div class="svc-float">
+                <span class="svc-num">02</span>
+                <h3 class="svc-name">Design</h3>
+                <svg class="svc-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="9" width="34" height="30" rx="4"></rect><line x1="7" y1="18" x2="41" y2="18"></line><line x1="18" y1="18" x2="18" y2="39"></line></svg>
+                <p class="svc-desc"><b>디자인</b>브랜드 톤에 맞는 화면으로 신뢰를 만듭니다.</p>
+              </div></article>
+              <article class="svc-card"><div class="svc-float">
+                <span class="svc-num">03</span>
+                <h3 class="svc-name">Build</h3>
+                <svg class="svc-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 14 6 24 16 34"></polyline><polyline points="32 14 42 24 32 34"></polyline><line x1="27" y1="10" x2="21" y2="38"></line></svg>
+                <p class="svc-desc"><b>개발</b>모든 기기에서 빠르게 열리는 반응형으로 만듭니다.</p>
+              </div></article>
+              <article class="svc-card"><div class="svc-float">
+                <span class="svc-num">04</span>
+                <h3 class="svc-name">Search</h3>
+                <svg class="svc-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="21" cy="21" r="12"></circle><line x1="30" y1="30" x2="41" y2="41"></line></svg>
+                <p class="svc-desc"><b>검색 최적화</b>검색엔진·AI 검색 노출을 위한 SEO·AEO 세팅.</p>
+              </div></article>
+              <article class="svc-card"><div class="svc-float">
+                <span class="svc-num">05</span>
+                <h3 class="svc-name">Care</h3>
+                <svg class="svc-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M40 24a16 16 0 1 1-4.7-11.3"></path><polyline points="40 8 40 16 32 16"></polyline></svg>
+                <p class="svc-desc"><b>사후 관리</b>런칭 후에도 수정과 업데이트를 지원합니다.</p>
+              </div></article>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. MESSAGE (text fill) -->
+    <section class="message dark overlap" aria-label="우리의 생각">
+      <div class="container">
+        <p class="eyebrow cap" data-reveal="up-sm">OUR PHILOSOPHY</p>
+        <p class="fill-text" aria-label="보기 좋은 웹사이트는 많습니다. 우리는 찾아지고, 선택받는 웹사이트를 만듭니다.">
+          <span class="row w5" aria-hidden="true"><span class="fill-char">보</span><span class="fill-char">기</span><span class="fill-char">&nbsp;</span><span class="fill-char">좋</span><span class="fill-char">은</span><span class="fill-char">&nbsp;</span><span class="fill-char">웹</span><span class="fill-char">사</span><span class="fill-char">이</span><span class="fill-char">트</span><span class="fill-char">는</span><span class="fill-char">&nbsp;</span><span class="fill-char">많</span><span class="fill-char">습</span><span class="fill-char">니</span><span class="fill-char">다</span><span class="fill-char">.</span></span>
+          <span class="row" aria-hidden="true"><span class="fill-char">우</span><span class="fill-char">리</span><span class="fill-char">는</span><span class="fill-char">&nbsp;</span><span class="fill-char">찾</span><span class="fill-char">아</span><span class="fill-char">지</span><span class="fill-char">고</span><span class="fill-char">,</span><span class="fill-char">&nbsp;</span><span class="fill-char">선</span><span class="fill-char">택</span><span class="fill-char">받</span><span class="fill-char">는</span><span class="fill-char">&nbsp;</span><span class="fill-char">웹</span><span class="fill-char">사</span><span class="fill-char">이</span><span class="fill-char">트</span><span class="fill-char">를</span><span class="fill-char">&nbsp;</span><span class="fill-char">만</span><span class="fill-char">듭</span><span class="fill-char">니</span><span class="fill-char">다</span><span class="fill-char">.</span></span>
+        </p>
+      </div>
+    </section>
+
+    <!-- 5. FEATURES (sticky stack) -->
+    <section class="features section overlap">
+      <div class="container">
+        <div class="sec-head center">
+          <p class="eyebrow cap" data-reveal="up-sm">WHY US</p>
+          <h2 class="display-l mask">
+            <span class="line"><span class="w5">잘 만든 웹사이트에는</span></span>
+            <span class="line"><span>분명한 이유가 있습니다</span></span>
+          </h2>
+        </div>
+        <div class="stack-list">
+          <article class="stack-card" style="top: 160px;">
+            <div>
+              <p class="stack-num">01</p>
+              <h3>검색에서 먼저<br>발견되는 구조</h3>
+              <p>검색엔진과 AI 검색이 이해하기 쉬운 구조로 설계해, 광고 없이도 찾아오는 방문자를 늘립니다.</p>
+              <ul class="check-list"><li>메타 정보·구조화 데이터 세팅</li><li>AI 답변 노출을 고려한 콘텐츠 구성</li></ul>
+            </div>
+            <div class="stack-visual" aria-hidden="true">
+              <div class="sv-search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><line x1="16.5" y1="16.5" x2="21" y2="21"></line></svg>우리 동네 믿을 만한 곳</div>
+              <div class="sv-row hl"><span class="sv-dot">1</span><div class="sv-lines"><i class="sv-line w60"></i><i class="sv-line w90"></i></div></div>
+              <div class="sv-row"><span class="sv-dot">2</span><div class="sv-lines"><i class="sv-line w40"></i><i class="sv-line w75"></i></div></div>
+              <div class="sv-row"><span class="sv-dot">3</span><div class="sv-lines"><i class="sv-line w60"></i><i class="sv-line w40"></i></div></div>
+            </div>
+          </article>
+          <article class="stack-card" style="top: 194px;">
+            <div>
+              <p class="stack-num">02</p>
+              <h3>방문자를 문의로<br>잇는 설계</h3>
+              <p>첫 화면부터 문의 버튼까지, 방문자가 망설이지 않도록 정보의 순서와 흐름을 설계합니다.</p>
+              <ul class="check-list"><li>핵심 메시지 우선 배치</li><li>문의 폼·전화·카카오톡 연결</li></ul>
+            </div>
+            <div class="stack-visual" aria-hidden="true">
+              <div class="sv-field">이름</div>
+              <div class="sv-field">연락처</div>
+              <div class="sv-field tall">문의 내용</div>
+              <div class="sv-submit">상담 신청하기</div>
+            </div>
+          </article>
+          <article class="stack-card" style="top: 228px;">
+            <div>
+              <p class="stack-num">03</p>
+              <h3>어떤 기기에서도<br>완벽하게</h3>
+              <p>PC, 태블릿, 모바일 어디서 보더라도 깨짐 없이, 빠르게 열리는 반응형으로 제작합니다.</p>
+              <ul class="check-list"><li>모바일 우선 레이아웃</li><li>이미지·로딩 속도 최적화</li></ul>
+            </div>
+            <div class="stack-visual sv-devices" aria-hidden="true">
+              <div class="sv-desktop"><div class="sv-block acc" style="height: 42%;"></div><div class="sv-block" style="height: 10%; width: 60%;"></div><div style="display: flex; gap: 6px; flex: 1;"><div class="sv-block" style="flex: 1;"></div><div class="sv-block" style="flex: 1;"></div><div class="sv-block" style="flex: 1;"></div></div></div>
+              <div class="sv-phone"><div class="sv-block acc" style="height: 30%;"></div><div class="sv-block" style="height: 8%;"></div><div class="sv-block" style="flex: 1;"></div><div class="sv-block" style="flex: 1;"></div></div>
+            </div>
+          </article>
+          <article class="stack-card" style="top: 262px;">
+            <div>
+              <p class="stack-num">04</p>
+              <h3>런칭 이후에도<br>함께합니다</h3>
+              <p>사이트를 열고 끝나는 것이 아니라, 운영하면서 필요한 수정과 업데이트를 이어서 지원합니다.</p>
+              <ul class="check-list"><li>텍스트·이미지 수정 지원</li><li>도메인·호스팅 연결 안내</li></ul>
+            </div>
+            <div class="stack-visual" aria-hidden="true">
+              <div class="sv-log"><span class="ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span>메인 배너 문구 수정<span class="when">DONE</span></div>
+              <div class="sv-log"><span class="ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span>신규 서비스 섹션 추가<span class="when">DONE</span></div>
+              <div class="sv-log"><span class="ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span>포트폴리오 이미지 교체<span class="when">DONE</span></div>
+              <div class="sv-log"><span class="ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span>검색 노출 점검<span class="when">DONE</span></div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. ROLL TEXT -->
+    <section class="roll" aria-hidden="true">
+      <div class="roll-row r1">WE BUILD <span class="outline">WEBSITES</span></div>
+      <div class="roll-row r2"><span class="outline">THAT</span> <span class="accent-bar">CONVERT</span></div>
+    </section>
+
+    <!-- 7. PORTFOLIO -->
+    <section class="works section" id="works">
+      <div class="container split">
+        <div class="sticky-col">
+          <p class="eyebrow cap" data-reveal="up-sm">SELECTED WORKS</p>
+          <h2 class="h2 mask">
+            <span class="line"><span class="w5">직접 설계하고 만든</span></span>
+            <span class="line"><span>프로젝트입니다</span></span>
+          </h2>
+          <div class="work-list" data-reveal>
+            <button class="work-row active" data-work="0" aria-pressed="true">
+                <span class="wr-num">01</span>
+                <span class="wr-title">정안 법무법인</span>
+                <span class="wr-sub">jeongan-law</span>
+              </button>
+            <button class="work-row" data-work="1" aria-pressed="false">
+                <span class="wr-num">02</span>
+                <span class="wr-title">바로선의원</span>
+                <span class="wr-sub">baroseon-clinic</span>
+              </button>
+            <button class="work-row" data-work="2" aria-pressed="false">
+                <span class="wr-num">03</span>
+                <span class="wr-title">GYEOL</span>
+                <span class="wr-sub">GYEOL</span>
+              </button>
+          </div>
+          <a href="#contact" class="work-link" data-reveal="up-sm">프로젝트 상담하기
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="8 7 17 7 17 16"></polyline></svg>
+          </a>
+        </div>
+        <div class="preview-wrap clip-reveal">
+          <div class="preview-bgnum" data-meta="num" aria-hidden="true">01</div>
+          <div class="preview-card">
+            <div class="preview-screen" aria-hidden="true">
+              <div class="preview active" data-preview="0">
+                <img class="shot shot-long" src="assets/portfolio/jeongan-law.jpg" loading="lazy" decoding="async" alt="정안 법무법인 홈페이지 전체 화면" width="1440" height="10254">
+              </div>
+              <div class="preview" data-preview="1">
+                <img class="shot shot-xlong" src="assets/portfolio/baroseon-clinic.jpg" loading="lazy" decoding="async" alt="바로선의원 홈페이지 전체 화면" width="1440" height="16958">
+              </div>
+              <div class="preview" data-preview="2">
+                <img class="shot shot-gyeol" src="assets/portfolio/gyeol-derma.jpg" loading="lazy" decoding="async" alt="GYEOL 피부과 홈페이지 전체 화면" width="1440" height="13459">
+              </div>
+            </div>
+            <dl class="preview-meta">
+              <div><dt>FIELD</dt><dd data-meta="field">전문직</dd></div>
+              <div><dt>TYPE</dt><dd data-meta="type">브랜드 사이트</dd></div>
+              <div><dt>YEAR</dt><dd data-meta="year">2025</dd></div>
+              <div class="view"><a data-meta="link" href="https://ohhanil.github.io/jeongan-law/" target="_blank" rel="noopener" style="display: inline-flex; align-items: center; gap: 6px;">VIEW <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="13 6 19 12 13 18"></polyline></svg></a></div>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 9. PROCESS (pin story) -->
+    <section class="process section dark overlap" id="process">
+      <div class="container split">
+        <div class="sticky-col">
+          <p class="eyebrow cap" data-reveal="up-sm">PROCESS</p>
+          <h2 class="h2 mask">
+            <span class="line"><span class="w5">상담부터 런칭까지,</span></span>
+            <span class="line"><span>4단계로 완성합니다</span></span>
+          </h2>
+          <div class="proc-frame" aria-hidden="true">
+            <div class="proc-img active"><span class="glow"></span><span class="big">01</span>
+              <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 12h22a4 4 0 0 1 4 4v10a4 4 0 0 1-4 4H18l-7 6v-6H8a4 4 0 0 1-4-4V16a4 4 0 0 1 4-4z"></path><path d="M38 20h2a4 4 0 0 1 4 4v10a4 4 0 0 1-4 4h-2v5l-6-5h-8"></path></svg>
+            </div>
+            <div class="proc-img"><span class="glow"></span><span class="big">02</span>
+              <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="8" width="36" height="32" rx="4"></rect><line x1="6" y1="17" x2="42" y2="17"></line><rect x="12" y="22" width="11" height="12" rx="1.5"></rect><line x1="28" y1="24" x2="36" y2="24"></line><line x1="28" y1="30" x2="34" y2="30"></line></svg>
+            </div>
+            <div class="proc-img"><span class="glow"></span><span class="big">03</span>
+              <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 14 6 24 16 34"></polyline><polyline points="32 14 42 24 32 34"></polyline><line x1="27" y1="10" x2="21" y2="38"></line></svg>
+            </div>
+            <div class="proc-img"><span class="glow"></span><span class="big">04</span>
+              <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M24 6c7 5 10 12 10 20l-4 8H18l-4-8c0-8 3-15 10-20z"></path><circle cx="24" cy="20" r="3.5"></circle><path d="M18 34l-5 5 1-8"></path><path d="M30 34l5 5-1-8"></path><line x1="24" y1="36" x2="24" y2="43"></line></svg>
+            </div>
+          </div>
+        </div>
+        <div class="proc-steps">
+          <article class="pstep active">
+              <p class="pstep-num">STEP 01</p>
+              <h3>상담 및 자료 전달</h3>
+              <p>비즈니스 소개와 참고 사이트, 보유하신 로고·사진 자료를 받아 방향을 함께 정합니다.</p>
+              <ul class="check-list"><li>화상 또는 서면 상담</li><li>참고 레퍼런스 공유</li></ul>
+            </article>
+          <article class="pstep">
+              <p class="pstep-num">STEP 02</p>
+              <h3>구조 설계 및 시안</h3>
+              <p>방문자가 문의까지 자연스럽게 이어지도록 구조를 설계하고, 브랜드 톤에 맞춘 시안을 전달드립니다.</p>
+              <ul class="check-list"><li>섹션 구성·카피 제안</li><li>시안 피드백 반영</li></ul>
+            </article>
+          <article class="pstep">
+              <p class="pstep-num">STEP 03</p>
+              <h3>개발 및 최적화</h3>
+              <p>확정된 시안을 반응형으로 개발하고, 문의 폼 연동과 검색 노출을 위한 기본 세팅을 진행합니다.</p>
+              <ul class="check-list"><li>PC·태블릿·모바일 대응</li><li>SEO·AEO 기본 세팅</li></ul>
+            </article>
+          <article class="pstep">
+              <p class="pstep-num">STEP 04</p>
+              <h3>런칭 및 사후 지원</h3>
+              <p>도메인·호스팅 연결을 도와드리고, 런칭 이후에도 운영에 필요한 수정을 지원합니다.</p>
+              <ul class="check-list"><li>도메인·호스팅 연결</li><li>런칭 후 수정 지원</li></ul>
+            </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- 12. FAQ -->
+    <section class="faq section overlap" id="faq">
+      <div class="container split">
+        <div class="sticky-col faq-side">
+          <p class="eyebrow cap" data-reveal="up-sm">FAQ</p>
+          <h2 class="h2 mask">
+            <span class="line"><span class="w5">자주 묻는</span></span>
+            <span class="line"><span>질문</span></span>
+          </h2>
+          <p class="lead" data-reveal>더 궁금하신 점은 상담 신청을 남겨 주시면<br>빠르게 답변드립니다.</p>
+          <div data-reveal>
+            <a href="#contact" class="btn btn--dark">문의하기
+              <span class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="13 6 19 12 13 18"></polyline></svg></span>
+            </a>
+          </div>
+        </div>
+        <div class="faq-list" data-reveal>
+          <div class="faq-item open">
+              <button class="faq-q" aria-expanded="true" aria-controls="faq-a-0">
+                <span class="n">01</span>
+                <span class="q">제작 기간은 얼마나 걸리나요?</span>
+                <span class="plus" aria-hidden="true">+</span>
+              </button>
+              <div class="faq-a-wrap" id="faq-a-0"><div class="faq-a-inner"><p class="faq-a">상담부터 런칭까지 보통 1~2주 정도 걸립니다. 자료 전달 속도와 피드백 횟수에 따라 달라질 수 있습니다.</p></div></div>
+            </div>
+          <div class="faq-item">
+              <button class="faq-q" aria-expanded="false" aria-controls="faq-a-1">
+                <span class="n">02</span>
+                <span class="q">도메인과 호스팅은 어떻게 하나요?</span>
+                <span class="plus" aria-hidden="true">+</span>
+              </button>
+              <div class="faq-a-wrap" id="faq-a-1"><div class="faq-a-inner"><p class="faq-a">이미 보유하신 도메인이 있다면 연결을 도와드리고, 없으신 경우 구매부터 연결까지 안내해 드립니다.</p></div></div>
+            </div>
+          <div class="faq-item">
+              <button class="faq-q" aria-expanded="false" aria-controls="faq-a-2">
+                <span class="n">03</span>
+                <span class="q">수정은 몇 번까지 가능한가요?</span>
+                <span class="plus" aria-hidden="true">+</span>
+              </button>
+              <div class="faq-a-wrap" id="faq-a-2"><div class="faq-a-inner"><p class="faq-a">시안 단계와 런칭 이후 모두 수정 요청을 받습니다. 구체적인 횟수와 범위는 상담 시 안내드립니다.</p></div></div>
+            </div>
+          <div class="faq-item">
+              <button class="faq-q" aria-expanded="false" aria-controls="faq-a-3">
+                <span class="n">04</span>
+                <span class="q">기존 홈페이지 리뉴얼도 가능한가요?</span>
+                <span class="plus" aria-hidden="true">+</span>
+              </button>
+              <div class="faq-a-wrap" id="faq-a-3"><div class="faq-a-inner"><p class="faq-a">네, 가능합니다. 기존 콘텐츠와 자료를 확인한 뒤 새로운 구조로 다시 설계해 드립니다.</p></div></div>
+            </div>
+          <div class="faq-item">
+              <button class="faq-q" aria-expanded="false" aria-controls="faq-a-4">
+                <span class="n">05</span>
+                <span class="q">SEO·AEO 최적화도 포함되나요?</span>
+                <span class="plus" aria-hidden="true">+</span>
+              </button>
+              <div class="faq-a-wrap" id="faq-a-4"><div class="faq-a-inner"><p class="faq-a">메타 정보, 구조화 데이터, 페이지 구조 등 검색 노출을 위한 기본 세팅이 제작에 포함됩니다.</p></div></div>
+            </div>
+          <div class="faq-item">
+              <button class="faq-q" aria-expanded="false" aria-controls="faq-a-5">
+                <span class="n">06</span>
+                <span class="q">결제는 어떻게 진행되나요?</span>
+                <span class="plus" aria-hidden="true">+</span>
+              </button>
+              <div class="faq-a-wrap" id="faq-a-5"><div class="faq-a-inner"><p class="faq-a">시안을 먼저 확인하신 뒤 결제를 진행합니다. 자세한 결제 방식은 상담 시 안내드립니다.</p></div></div>
+            </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 13. FINAL CTA -->
+    <section class="final dark overlap" id="contact">
+      <canvas class="cta-canvas" aria-hidden="true"></canvas>
+      <div class="container final-inner">
+        <div class="final-copy">
+          <p class="eyebrow cap" data-reveal="up-sm">FREE CONSULTATION</p>
+          <h2 class="final-title" aria-label="브랜드에 꼭 맞는 웹사이트, 지금 시작하세요">
+            <span class="row w5" aria-hidden="true"><span class="word">브랜드에</span><span class="word">꼭</span><span class="word">맞는</span></span>
+            <span class="row" aria-hidden="true"><span class="word">웹사이트,</span><span class="word">지금</span><span class="word">시작하세요</span></span>
+          </h2>
+          <p class="final-lead" data-reveal>원하시는 날짜와 시간을 남겨 주시면,<br>확인 후 편하신 방법으로 먼저 연락드립니다.</p>
+          <div class="final-checks" data-reveal-group>
+            <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>상담은 무료입니다</span>
+            <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>반응형 · SEO 기본 포함</span>
+            <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>런칭 후 사후 지원</span>
+          </div>
+        </div>
+
+        <div class="book-card" data-reveal>
+          <form class="book-form" id="book-form">
+              <input class="bf-hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+              <div class="bf-head">
+                <h3>상담 예약하기</h3>
+                <p><span class="req">*</span> 표시는 필수 항목입니다</p>
+              </div>
+
+              <div class="bf-row two">
+                <label class="bf-field">
+                  <span class="bf-label">성함 <span class="req">*</span></span>
+                  <input name="name" type="text" required autocomplete="name" placeholder="홍길동">
+                </label>
+                <label class="bf-field">
+                  <span class="bf-label">연락처 <span class="req">*</span></span>
+                  <input name="phone" type="tel" required autocomplete="tel" inputmode="tel" pattern="[0-9\-\s]{9,14}" title="숫자와 - 만 입력해 주세요" placeholder="010-0000-0000">
+                </label>
+              </div>
+
+              <label class="bf-field">
+                <span class="bf-label">업체명 · 업종</span>
+                <input name="company" type="text" autocomplete="organization" placeholder="예) 정안 법무법인 · 법률">
+              </label>
+
+              <fieldset class="bf-field">
+                <legend class="bf-label">필요한 작업</legend>
+                <div class="chip-group">
+                  <label class="chip"><input type="radio" name="work" value="새로 제작"><span>새로 제작</span></label>
+                  <label class="chip"><input type="radio" name="work" value="리뉴얼"><span>리뉴얼</span></label>
+                  <label class="chip"><input type="radio" name="work" value="랜딩페이지"><span>랜딩페이지</span></label>
+                  <label class="chip"><input type="radio" name="work" value="아직 모르겠어요"><span>아직 모르겠어요</span></label>
+                </div>
+              </fieldset>
+
+              <fieldset class="bf-field">
+                <legend class="bf-label">상담 방식 <span class="req">*</span></legend>
+                <div class="chip-group">
+                  <label class="chip"><input type="radio" name="method" value="전화" required checked><span>전화</span></label>
+                  <label class="chip"><input type="radio" name="method" value="화상 미팅"><span>화상 미팅</span></label>
+                  <label class="chip"><input type="radio" name="method" value="카카오톡"><span>카카오톡</span></label>
+                </div>
+              </fieldset>
+
+              <div class="bf-row date-row">
+                <label class="bf-field">
+                  <span class="bf-label">희망 날짜 <span class="req">*</span></span>
+                  <input name="date" type="date" required>
+                </label>
+                <fieldset class="bf-field">
+                  <legend class="bf-label">희망 시간 <span class="req">*</span></legend>
+                  <div class="chip-group">
+                    <label class="chip"><input type="radio" name="time" value="오전 10–12시" required><span>오전 10–12시</span></label>
+                    <label class="chip"><input type="radio" name="time" value="오후 1–3시"><span>오후 1–3시</span></label>
+                    <label class="chip"><input type="radio" name="time" value="오후 3–6시"><span>오후 3–6시</span></label>
+                  </div>
+                </fieldset>
+              </div>
+
+              <label class="bf-field">
+                <span class="bf-label">문의 내용</span>
+                <textarea name="message" rows="3" placeholder="참고하고 싶은 사이트나 원하는 느낌을 자유롭게 적어 주세요."></textarea>
+              </label>
+
+              <label class="bf-agree">
+                <input type="checkbox" name="agree" required>
+                <span>개인정보 수집·이용에 동의합니다 <span class="req">(필수)</span><br><small>수집 항목: 성함, 연락처, 업체명 · 목적: 상담 안내 · 보관: 상담 종료 후 1년</small></span>
+              </label>
+
+              <p class="bf-error" role="alert" hidden>전송에 실패했어요. 잠시 후 다시 시도하시거나 [연락처]로 연락 주세요.</p>
+              <button type="submit" class="btn btn--primary bf-submit"><span class="bf-submit-label">상담 예약 신청하기</span>
+                <span class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="13 6 19 12 13 18"></polyline></svg></span>
+              </button>
+            </form>
+
+          <div class="book-done" role="status" hidden tabindex="-1">
+              <span class="done-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+              <h3>상담 예약이 접수되었습니다</h3>
+              <p><span data-done="name"></span>님, 남겨 주신 연락처로 확인 후 연락드리겠습니다.</p>
+              <dl class="done-summary">
+                <div><dt>상담 방식</dt><dd><span data-done="method"></span></dd></div>
+                <div><dt>희망 일시</dt><dd><span data-done="when"></span></dd></div>
+                <div><dt>연락처</dt><dd><span data-done="phone"></span></dd></div>
+              </dl>
+              <button type="button" class="btn btn--ghost" data-action="reset-booking">다시 작성하기</button>
+            </div>
+          
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- 14. FOOTER -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-mark" aria-hidden="true">THE WEB</div>
+      <div class="footer-cols">
+        <div>
+          <h4>COMPANY</h4>
+          <p>THE WEB 웹사이트 제작 스튜디오<br>대표 [대표자명] · 사업자등록번호 [000-00-00000]<br>[사업장 주소]</p>
+        </div>
+        <div>
+          <h4>MENU</h4>
+          <ul>
+            <li><a href="#service">서비스</a></li>
+            <li><a href="#works">포트폴리오</a></li>
+            <li><a href="#process">제작 과정</a></li>
+            <li><a href="#faq">FAQ</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>CONTACT</h4>
+          <ul>
+            <li><a href="#contact">[이메일 주소]</a></li>
+            <li>[연락처]</li>
+            <li><a href="#">카카오톡 채널 [링크]</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2026 THE WEB. All rights reserved.</p>
+        <nav aria-label="약관"><a href="#">이용약관</a><a href="#">개인정보처리방침</a></nav>
+      </div>
+    </div>
+  </footer>
+
+  <!-- floating -->
+  <div class="floaters">
+    <a href="#top" class="top-badge" aria-label="맨 위로">
+      <svg class="ring" viewBox="0 0 72 72" aria-hidden="true">
+        <defs><path id="badge-path" d="M36,36 m-26,0 a26,26 0 1,1 52,0 a26,26 0 1,1 -52,0"></path></defs>
+        <text><textPath href="#badge-path">SCROLL TO TOP · THE WEB · THE WEB ·</textPath></text>
+      </svg>
+      <svg class="up" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="6 11 12 5 18 11"></polyline></svg>
+    </a>
+    <a href="#contact" class="btn btn--dark cta-glow float-inquiry"><span class="ping" aria-hidden="true"></span>무료 상담
+      <span class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="13 6 19 12 13 18"></polyline></svg></span>
+    </a>
+  </div>
+
+</div>
+<script>
+(() => {
+  // 상담 예약을 받는 Google Apps Script 웹 앱 주소 (시트 저장 + 메일 알림)
+  const FORM_ENDPOINT = 'https://script.google.com/macros/s/AKfycbyp-NxYRXQGfnUTI_rkE65tqFxGWk0H4iVeFt_G0PL_FlAS9Ynqq-kQcVKecLU3PtreIw/exec';
+
+  const WORKS = [
+    { field: '전문직', type: '브랜드 사이트', year: '2025', link: 'https://ohhanil.github.io/jeongan-law/' },
+    { field: '병원', type: '브랜드 사이트', year: '2026', link: 'https://ohhanil.github.io/baroseon-clinic/' },
+    { field: '피부과', type: '브랜드 사이트', year: '2025', link: 'https://ohhanil.github.io/gyeol-derma/' }
+  ];
+
+  const $ = (s, root = document) => root.querySelector(s);
+  const $$ = (s, root = document) => Array.from(root.querySelectorAll(s));
+  const clamp = (v, a, b) => Math.min(Math.max(v, a), b);
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const page = $('.page');
+  const header = $('.site-header');
+  const floaters = $('.floaters');
+  const hero = $('.hero');
+  const heroInner = $('.hero-inner');
+  const heroDeco = $('.hero-deco');
+  const fill = $('.fill-text');
+  const fillChars = $$('.fill-char');
+  const cards = $$('.stack-card');
+  const roll = $('.roll');
+  const rollRows = roll ? [$('.r1', roll), $('.r2', roll)] : [];
+  const steps = $$('.pstep');
+  const procImgs = $$('.proc-img');
+  const contact = $('#contact');
+
+  /* ---------- entrance + reveal ---------- */
+  page.classList.add('js');
+  $$('[data-reveal-group]').forEach((g) => Array.from(g.children).forEach((c, i) => c.style.setProperty('--i', i)));
+  $$('.hero-title .char').forEach((c, i) => c.style.setProperty('--d', (150 + i * 28) + 'ms'));
+  requestAnimationFrame(() => requestAnimationFrame(() => heroInner.classList.add('is-in')));
+
+  const revealTargets = $$('[data-reveal], [data-reveal-group], .mask, .clip-reveal, .final-title');
+  if ('IntersectionObserver' in window && !reduce) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); }
+      });
+    }, { rootMargin: '0px 0px -12% 0px' });
+    revealTargets.forEach((el) => io.observe(el));
+  } else {
+    revealTargets.forEach((el) => el.classList.add('is-in'));
+  }
+
+  /* ---------- full-screen menu ---------- */
+  const menu = $('#full-menu');
+  const menuBtn = $('.menu-btn');
+  const setMenu = (open) => {
+    menu.hidden = !open;
+    menuBtn.setAttribute('aria-expanded', String(open));
+    document.documentElement.style.overflow = open ? 'hidden' : '';
+    if (open) $('.close-btn', menu).focus();
+  };
+  menu.addEventListener('keydown', (e) => { if (e.key === 'Escape') { setMenu(false); menuBtn.focus(); } });
+
+  document.addEventListener('click', (e) => {
+    const el = e.target.closest('[data-action]');
+    if (!el) return;
+    const action = el.dataset.action;
+    if (action === 'open-menu') setMenu(true);
+    else if (action === 'close-menu') setMenu(false);
+    else if (action === 'reset-booking') resetBooking();
+  });
+
+  /* ---------- portfolio list + preview ---------- */
+  const workRows = $$('.work-row');
+  const previews = $$('.preview');
+  const meta = (key) => $('[data-meta="' + key + '"]');
+  let activeWork = 0;
+  const pickWork = (i) => {
+    if (i === activeWork) return;
+    activeWork = i;
+    workRows.forEach((r, j) => { r.classList.toggle('active', j === i); r.setAttribute('aria-pressed', String(j === i)); });
+    previews.forEach((p, j) => p.classList.toggle('active', j === i));
+    const w = WORKS[i];
+    meta('num').textContent = '0' + (i + 1);
+    meta('field').textContent = w.field;
+    meta('type').textContent = w.type;
+    meta('year').textContent = w.year;
+    meta('link').href = w.link;
+  };
+  workRows.forEach((row, i) => ['mouseenter', 'focus', 'click'].forEach((ev) => row.addEventListener(ev, () => pickWork(i))));
+
+  /* ---------- FAQ ---------- */
+  const faqItems = $$('.faq-item');
+  faqItems.forEach((item) => {
+    $('.faq-q', item).addEventListener('click', () => {
+      const willOpen = !item.classList.contains('open');
+      faqItems.forEach((other) => {
+        other.classList.remove('open');
+        $('.faq-q', other).setAttribute('aria-expanded', 'false');
+      });
+      if (willOpen) {
+        item.classList.add('open');
+        $('.faq-q', item).setAttribute('aria-expanded', 'true');
+      }
+    });
+  });
+
+  /* ---------- scroll-driven effects ---------- */
+  let ticking = false;
+  let fillN = -1;
+  let activeStep = 0;
+
+  const setStep = (i) => {
+    if (i === activeStep) return;
+    activeStep = i;
+    steps.forEach((s, j) => s.classList.toggle('active', j === i));
+    procImgs.forEach((img, j) => {
+      img.classList.toggle('active', j === i);
+      img.classList.toggle('past', j < i);
+    });
+  };
+
+  const tick = () => {
+    ticking = false;
+    const y = window.scrollY, vh = window.innerHeight, vw = window.innerWidth;
+
+    header.classList.toggle('scrolled', y > 60);
+
+    const heroTotal = hero.offsetHeight - vh;
+    const contactOnScreen = contact.getBoundingClientRect().top < vh * 0.8;
+    floaters.classList.toggle('show', y > Math.max(heroTotal * 0.85, vh * 0.7) && !contactOnScreen);
+
+    if (!reduce) {
+      if (heroTotal > 0) {
+        const q = clamp((y / heroTotal - 0.08) / 0.8, 0, 1);
+        heroInner.style.transform = 'scale(' + (1 - 0.1 * q) + ')';
+        heroInner.style.opacity = String(1 - q);
+        heroInner.style.filter = q > 0 ? 'blur(' + (8 * q) + 'px)' : '';
+        heroDeco.style.opacity = String(1 - 0.8 * q);
+      }
+
+      const fr = fill.getBoundingClientRect();
+      const start = vh * 0.75, end = vh * 0.35;
+      const fp = clamp((start - fr.top) / ((start - end) + fr.height), 0, 1);
+      const n = Math.round(fp * fillChars.length);
+      if (n !== fillN) {
+        fillChars.forEach((c, i) => c.classList.toggle('on', i < n));
+        fillN = n;
+      }
+
+      if (vw > 767) {
+        cards.forEach((c, i) => {
+          if (i === cards.length - 1) return;
+          const t = cards[i + 1].getBoundingClientRect().top;
+          const endTop = 160 + (i + 1) * 34;
+          const p = clamp((vh - t) / (vh - endTop), 0, 1);
+          c.style.transform = 'translateY(' + (-30 * p) + 'px) scale(' + (1 - 0.12 * p) + ')';
+          c.style.filter = p > 0 ? 'brightness(' + (1 - 0.4 * p) + ')' : '';
+        });
+      } else {
+        cards.forEach((c) => { c.style.transform = ''; c.style.filter = ''; });
+      }
+
+      if (roll) {
+        const rr = roll.getBoundingClientRect();
+        const p = clamp((vh - rr.top) / (vh + rr.height), 0, 1);
+        if (rollRows[0]) rollRows[0].style.transform = 'translateX(' + (10 - 30 * p) + '%)';
+        if (rollRows[1]) rollRows[1].style.transform = 'translateX(' + (-20 + 25 * p) + '%)';
+      }
+    } else if (fillN !== fillChars.length) {
+      fillChars.forEach((c) => c.classList.add('on'));
+      fillN = fillChars.length;
+    }
+
+    let step = activeStep;
+    steps.forEach((s, i) => {
+      const r = s.getBoundingClientRect();
+      if (r.top <= vh * 0.55 && r.bottom >= vh * 0.55) step = i;
+    });
+    setStep(step);
+  };
+  const onScroll = () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(tick);
+  };
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll);
+  tick();
+
+  /* ---------- particle sphere behind the booking form ---------- */
+  (() => {
+    const cv = $('.cta-canvas');
+    if (!cv || reduce || !cv.getContext) return;
+    const ctx = cv.getContext('2d');
+    const N = 420, pts = [];
+    const golden = Math.PI * (3 - Math.sqrt(5));
+    for (let i = 0; i < N; i++) {
+      const yy = 1 - (i / (N - 1)) * 2;
+      const rad = Math.sqrt(1 - yy * yy);
+      const th = golden * i;
+      pts.push([Math.cos(th) * rad, yy, Math.sin(th) * rad, i % 3]);
+    }
+    const colors = ['126,122,255', '94,81,240', '120,170,255'];
+    let w = 0, h = 0, angle = 0, running = false, raf = 0;
+    const resize = () => {
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      w = cv.clientWidth; h = cv.clientHeight;
+      cv.width = Math.round(w * dpr); cv.height = Math.round(h * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    };
+    const draw = () => {
+      if (!running) return;
+      angle += 0.0022;
+      ctx.clearRect(0, 0, w, h);
+      const R = Math.min(w, h) * 0.42, cx = w / 2, cy = h / 2;
+      const ca = Math.cos(angle), sa = Math.sin(angle), ct = Math.cos(0.35), st = Math.sin(0.35);
+      for (let i = 0; i < N; i++) {
+        const p = pts[i];
+        const x1 = p[0] * ca + p[2] * sa, z1 = -p[0] * sa + p[2] * ca;
+        const y2 = p[1] * ct - z1 * st, z2 = p[1] * st + z1 * ct;
+        const depth = (z2 + 1) / 2;
+        const persp = 0.75 + 0.25 * depth;
+        ctx.beginPath();
+        ctx.fillStyle = 'rgba(' + colors[p[3]] + ',' + (0.2 + 0.6 * depth).toFixed(3) + ')';
+        ctx.arc(cx + x1 * R * persp, cy + y2 * R * persp, 0.8 + 1.4 * depth, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      raf = requestAnimationFrame(draw);
+    };
+    resize();
+    window.addEventListener('resize', resize);
+    new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting && !running) { running = true; draw(); }
+        else if (!e.isIntersecting) { running = false; cancelAnimationFrame(raf); }
+      });
+    }).observe(cv);
+  })();
+
+  /* ---------- booking form ---------- */
+  const form = $('#book-form');
+  const done = $('.book-done');
+  const errorEl = $('.bf-error');
+  const submitBtn = $('.bf-submit');
+  const submitLabel = $('.bf-submit-label');
+  let sending = false;
+
+  const tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  const pad = (n) => String(n).padStart(2, '0');
+  form.elements.date.min = tomorrow.getFullYear() + '-' + pad(tomorrow.getMonth() + 1) + '-' + pad(tomorrow.getDate());
+
+  const setSending = (on) => {
+    sending = on;
+    submitBtn.disabled = on;
+    submitLabel.textContent = on ? '보내는 중…' : '상담 예약 신청하기';
+  };
+
+  const showDone = (b) => {
+    $$('[data-done]', done).forEach((el) => { el.textContent = b[el.dataset.done] || ''; });
+    form.hidden = true;
+    errorEl.hidden = true;
+    done.hidden = false;
+    done.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' });
+    done.focus({ preventScroll: true });
+  };
+
+  function resetBooking() {
+    form.reset();
+    done.hidden = true;
+    errorEl.hidden = true;
+    form.hidden = false;
+    form.elements.name.focus();
+  }
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    if (sending || !form.reportValidity()) return;
+    const d = new FormData(form);
+
+    const dateStr = String(d.get('date') || '');
+    let when = dateStr;
+    const m = dateStr.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+    if (m) {
+      const dt = new Date(+m[1], +m[2] - 1, +m[3]);
+      when = (+m[2]) + '월 ' + (+m[3]) + '일 (' + '일월화수목금토'[dt.getDay()] + ')';
+    }
+    const booking = {
+      name: String(d.get('name') || '').trim(),
+      phone: String(d.get('phone') || '').trim(),
+      method: String(d.get('method') || ''),
+      when: when + ' ' + String(d.get('time') || '')
+    };
+
+    if (d.get('website')) { showDone(booking); return; }
+
+    const body = new URLSearchParams();
+    d.forEach((v, k) => body.append(k, String(v)));
+    body.append('page', window.location.href);
+    setSending(true);
+    errorEl.hidden = true;
+    // Apps Script 웹 앱은 CORS 응답을 읽을 수 없어 no-cors로 보내고, 네트워크 오류만 실패로 처리합니다.
+    fetch(FORM_ENDPOINT, { method: 'POST', mode: 'no-cors', body })
+      .then(() => { setSending(false); showDone(booking); })
+      .catch(() => { setSending(false); errorEl.hidden = false; });
+  });
+})();
+
+</script>
+</body>
+</html>
